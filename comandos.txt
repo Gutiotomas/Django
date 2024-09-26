@@ -1,0 +1,76 @@
+crear un entorno virtual: python -m venv (nombre)
+activar el entorno virtual: .\(nombre)\Scripts\activate
+desactivar entorno: deactivate 
+
+instlar django en entorno virtual: pip3 install django
+
+crear un proyecto: django-admin startproject (nombre)
+
+crear una aplicacion: python manage.py startapp (nombre)
+python -m django startapp (nombre)
+
+Este comando inicia el servidor de desarrollo integrado de Django en la máquina 
+local con la dirección IP 127.0.0.1 y el puerto 8000.
+python manage.py runserver
+
+abre un shell de Python interactivo dentro del proyecto.Es útil cuando debe realizar
+algunas operaciones interactivas rápidas.
+python manage.py shell
+
+Crear los modelos en models.py, por ejemplo:
+class Menu(models.Model):
+    name = models.CharField(max_length=100)
+    cuisine = models.CharField(max_length=100)
+    price = models.IntegerField()
+
+Agregarlo al settings installed apps:
+"menuapp.apps.MenuappConfig",
+
+Hacer la migración: La migración es generar una tabla de base de datos cuya estructura coincida 
+con el modelo de datos declarado en la aplicación.
+El siguiente comando debe ejecutarse siempre que se declare un nuevo modelo.
+python manage.py makemigrations
+
+sincroniza el estado de la base de datos con los modelos y migraciones 
+declarados actualmente.
+python manage.py migrate
+
+abrir el shell e importar la clase:
+from menuapp.models import Menu
+
+para conocer todos los objetos allí creados:
+Menu.objects.all()
+
+Para que objects.all() me muestre los resultados debo agregar una función a models.py:
+def __str__(self):
+        return self.name + " : " + self.cuisine
+
+Para crear un nuevo objeto: según la estructura creada en el modelo Menu
+m = Menu.objects.create(name = 'pasta', cuisine ='italian', price = 10) 
+la variable  'm' debe cambiar cuando creo claves foráneas
+
+para actualizar algún valor de un objeto:
+p = Menu.objects.get(pk=2)          accede al segundo objeto
+>>> p.cuisine = "chinese"             accede al campo cuisine y lo cambia por lo que desee
+>>> p.save()                                  guarda
+
+Para alterar cualquier columna de la tabla basta con solo cambiar el nombre o agregar la 
+nueva columna, aplicar el comando makemigrations y aqui se generan los cambios
+Para aplicarlos debo hacer migrate
+Para mirar todos los cambios que se han hecho: showmigrations
+para devolver a algún cambio en específico:
+python manage.py migrate menuapp 0002 --plan      el plan es para ver a que nos devolveremos
+python manage.py migrate menuapp 0002                 sin el plan ejecuta los cambios
+
+Para observar un cambio desde el lenguaje mysql:
+python manage.py sqlmigrate menuapp 0004
+
+En shell para obtener una búsqueda por filtro:
+Customer.objects.filter(reservation_day ='Friday') & Customer.objects.filter(seats=4)
+Debe cumplir las dos condiciones
+
+Para crear un usuario admin:
+python manage.py createsuperuser
+Crear un username
+Add an email
+Add a password
