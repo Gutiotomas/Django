@@ -1,1 +1,1 @@
-Uso del patrón Modelo-Vista-Plantilla (MVT) de Django, utilizando entornos virtuales en Python
+Using Django's Model-View-Template (MVT) pattern, using virtual environments in Python
